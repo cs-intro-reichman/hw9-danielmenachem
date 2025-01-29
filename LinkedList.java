@@ -50,7 +50,7 @@ public class LinkedList {
 	 * @return the node at the given index
 	 */		
 	public Node getNode(int index) {
-		if (index < 0 || index > size) {
+		if (index < 0 || index >= size) {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
@@ -232,11 +232,11 @@ public class LinkedList {
 	 * A textual representation of this list, for debugging.
 	 */
 	public String toString() {
-		String str = ""; 
+		StringBuilder str = new StringBuilder(""); 
 		ListIterator itr = this.iterator(); 
 		while (itr.hasNext()) {
-			str += itr.current.block.toString(); 
+			str.append(itr.next() + " "); 
 		}
-		return str; 
+		return str.toString();
 	}
 }
