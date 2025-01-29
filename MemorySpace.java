@@ -117,18 +117,22 @@ public class MemorySpace {
 		if (freeList.getSize() <= 1) {
 			return; 
 		}
-		ListIterator itr1 = freeList.iterator(); 
-		while (itr1.hasNext()) {
-			ListIterator itr2 = new ListIterator(itr1.current.next);
-			MemoryBlock initial = itr1.next();  
-			while (itr2.hasNext()) {
-				MemoryBlock toAdd = itr2.next(); 
-				if (toAdd.baseAddress == initial.baseAddress + initial.length) {
-					initial.length += toAdd.length; 
-					freeList.remove(toAdd);
-					break; 
+		boolean merged; 
+		do {
+			merged = false; 
+			ListIterator itr1 = freeList.iterator(); 
+			while (itr1.hasNext()) {
+				ListIterator itr2 = new ListIterator(itr1.current.next);
+				MemoryBlock initial = itr1.next();  
+				while (itr2.hasNext()) {
+					MemoryBlock toAdd = itr2.next(); 
+					if (toAdd.baseAddress == initial.baseAddress + initial.length) {
+						initial.length += toAdd.length; 
+						freeList.remove(toAdd); 
+						merged = true; 
+					}
 				}
 			}
-		} 
+		} while (merged); 
 	}
 }
